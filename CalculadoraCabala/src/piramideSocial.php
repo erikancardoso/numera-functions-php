@@ -1,5 +1,5 @@
 <?php
-function piramidePessoal($nomeCompleto, $dataNascimento)
+function piramideSocial($nomeCompleto, $dataNascimento)
 {
     // Tabela base de correspondência de letras para números
     $tabelaBase = [
@@ -72,6 +72,5 @@ function piramidePessoal($nomeCompleto, $dataNascimento)
 // Exemplo de uso
 $nomeCompleto = "Erika maria nascimento da silva cardoso";
 $dataNascimento = "30-10-1993"; // Mês 10 reduzido para 1
-echo "" . piramidePessoal($nomeCompleto, $dataNascimento) . "";
+echo "" . piramideSocial($nomeCompleto, $dataNascimento) . "";
 ?>
-
