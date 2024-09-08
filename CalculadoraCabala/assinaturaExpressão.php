@@ -3,7 +3,7 @@
 function calcularAnaliseAssinatura($nomeCompleto)
 {
     // Tabela do alfabeto atualizada com letras acentuadas e suas variações
-    $alfabetoSimbolo = array(
+    $alfabeto = array(
         'a' => 1, 'A' => 1, 'b' => 2, 'B' => 2, 'c' => 3, 'C' => 3, 'd' => 4, 'D' => 4,
         'e' => 5, 'E' => 5, 'f' => 8, 'F' => 8, 'g' => 3, 'G' => 3, 'h' => 5, 'H' => 5,
         'i' => 1, 'I' => 1, 'j' => 1, 'J' => 1, 'k' => 2, 'K' => 2, 'l' => 3, 'L' => 3,
@@ -34,7 +34,7 @@ function calcularAnaliseAssinatura($nomeCompleto)
     // Iterar sobre cada letra do nome
     for ($i = 0; $i < count($nomeArray); $i++) {
         $letra = $nomeArray[$i];
-        $valorLetra = isset($alfabetoSimbolo[$letra]) ? $alfabetoSimbolo[$letra] : 0;
+        $valorLetra = isset($alfabeto[$letra]) ? $alfabeto[$letra] : 0;
 
         // Verificar se há símbolos especiais à esquerda da letra atual
         if ($i > 0) {
