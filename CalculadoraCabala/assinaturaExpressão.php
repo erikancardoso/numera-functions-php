@@ -1,6 +1,6 @@
 <?php
 
-function calcularAnaliseAssinatura($nomeCompleto)
+function calcularAssinaturaExpressao($nomeCompleto)
 {
     // Tabela do alfabeto atualizada com letras acentuadas e suas variações
     $alfabeto = array(
@@ -83,6 +83,6 @@ function calcularAnaliseAssinatura($nomeCompleto)
 
 // Exemplo de uso
 $nomeCompleto = "Erika";
-$resultado = calcularAnaliseAssinatura($nomeCompleto);
+$resultado = calcularAssinaturaExpressao($nomeCompleto);
 echo "O Número de Expressão para $nomeCompleto é: " . $resultado['numeroExpressao'] . "\n";
 echo "Sequência de Algarismos: " . $resultado['sequencia'];
