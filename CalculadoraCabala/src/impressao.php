@@ -1,33 +1,81 @@
 <?php
 
-function calcularNumeroImpressao($nome)
+function calcularImpressao($nomeCompleto)
 {
-    // Definir valores para as consoantes com base na sua solicitação
-    $consoantes = array(
-        'B' => 2, 'C' => 3, 'D' => 4, 'F' => 8, 'G' => 3, 'H' => 5, 'J' => 1, 'K' => 2, 'L' => 3, 'M' => 4, 'N' => 5, 'P' => 8, 'Q' => 1, 'R' => 2, 'S' => 3, 'T' => 4, 'V' => 6, 'W' => 6, 'X' => 6, 'Z' => 7, 'Ç' => 6,
-        'b' => 2, 'c' => 3, 'd' => 4, 'f' => 8, 'g' => 3, 'h' => 5, 'j' => 1, 'k' => 2, 'l' => 3, 'm' => 4, 'n' => 5, 'p' => 8, 'q' => 1, 'r' => 2, 's' => 3, 't' => 4, 'v' => 6, 'w' => 6, 'x' => 6, 'z' => 7, 'ç' => 6
+    // Tabela do alfabeto atualizada com letras acentuadas e suas variações
+    $alfabeto = array(
+        'b' => 2, 'B' => 2, 'c' => 3, 'C' => 3, 'd' => 4, 'D' => 4,
+        'f' => 8, 'F' => 8, 'g' => 3, 'G' => 3, 'h' => 5, 'H' => 5,
+        'j' => 1, 'J' => 1, 'k' => 2, 'K' => 2, 'l' => 3, 'L' => 3,
+        'm' => 4, 'M' => 4, 'n' => 5, 'N' => 5, 'p' => 8, 'P' => 8,
+        'q' => 1, 'Q' => 1, 'r' => 2, 'R' => 2, 's' => 3, 'S' => 3, 't' => 4, 'T' => 4,
+        'v' => 6, 'V' => 6, 'w' => 6, 'W' => 6, 'x' => 5, 'X' => 5,
+        'y' => 1, 'Y' => 1, 'z' => 7, 'Z' => 7, 'ç' => 6, 'Ç' => 6,
+        'ć' => 5, 'Ć' => 5, 'ĉ' => 1, 'Ĉ' => 1, 'ñ' => 8, 'Ñ' => 8, 'ń' => 7,
+        'Ń' => 7, 'ś' => 5, 'Ś' => 5, 'ŝ' => 1, 'Ŝ' => 1, 'ź' => 9, 'Ź' => 9,
+        'ģ' => 5, 'Ǵ' => 5 
     );
 
     $soma = 0;
 
+    // Convertendo o nome para um array de caracteres considerando codificação UTF-8
+    $nomeArray = preg_split('//u', $nomeCompleto, -1, PREG_SPLIT_NO_EMPTY);
+
+    // Definição dos símbolos especiais utilizando seus códigos UTF-8
+    $simbolosEspeciais1 = ["\xC2\xA8", "\x60", "\xC2\xB4", "\x27"]; // Trema, Crase, Agudo, Apóstrofo
+    $simbolosEspeciais2 = ["\xC2\xB0", "\x5E"]; // Grau e Circunferência
+    $simbolosEspeciais3 = ["\x7E"]; // Til
+
     // Iterar sobre cada letra do nome
-    for ($i = 0; $i < strlen($nome); $i++) {
-        $letra = $nome[$i];
-        if (array_key_exists($letra, $consoantes)) {
-            $soma += $consoantes[$letra];
+    for ($i = 0; $i < count($nomeArray); $i++) {
+        $letra = $nomeArray[$i];
+        $valorLetra = isset($alfabeto[$letra]) ? $alfabeto[$letra] : 0;
+
+        // Verificar se há símbolos especiais à esquerda da letra atual
+        if ($i > 0) {
+            $simboloAnterior = $nomeArray[$i - 1];
+            
+            // Verificar presença de símbolos do grupo 1
+            if (in_array($simboloAnterior, $simbolosEspeciais1)) {
+                $valorLetra += 2;
+                // Aplicar redução teosófica se o valor da letra modificada for maior que 9
+                while ($valorLetra > 9) {
+                    $valorLetra = array_sum(str_split($valorLetra));
+                }
+            }
+
+            // Verificar presença de símbolos do grupo 2
+            if (in_array($simboloAnterior, $simbolosEspeciais2)) {
+                $valorLetra += 7;
+                // Aplicar redução teosófica se o valor da letra modificada for maior que 9
+                while ($valorLetra > 9) {
+                    $valorLetra = array_sum(str_split($valorLetra));
+                }
+            }
+
+            // Verificar presença de símbolos do grupo 3
+            if (in_array($simboloAnterior, $simbolosEspeciais3)) {
+                $valorLetra += 3;
+                // Aplicar redução teosófica se o valor da letra modificada for maior que 9
+                while ($valorLetra > 9) {
+                    $valorLetra = array_sum(str_split($valorLetra));
+                }
+            }
         }
+
+        // Atualizar a soma total e a sequência de valores
+        $soma += $valorLetra;
     }
 
-    // Reduzir a soma a um único dígito
-    while ($soma > 9) {
+    // Reduzir a soma a um único dígito ou número mestre
+    while ($soma > 9 && $soma != 11 && $soma != 22) {
         $soma = array_sum(str_split($soma));
     }
 
-    return $soma;
+    return ['numeroImpressao' => $soma];
 }
 
 // Exemplo de uso
-$nome = "Wesley Alves Cardoso";
-$numeroImpressao = calcularNumeroImpressao($nome);
-echo "O Número de Impressão para $nome é: $numeroImpressao";
-
+$nomeCompleto = "maria helena da silva nascimen°to";
+$resultado = calcularImpressao($nomeCompleto);
+echo "O Número de Impressão para $nomeCompleto é: " . $resultado['numeroImpressao'] . "\n";
