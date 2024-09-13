@@ -168,7 +168,7 @@ $nomeCompleto = "Erika Maria nascimento da Silva cardoso";
 $dataNascimento = "30-10-1993";
 $resultado = arcanoDestino($nomeCompleto, $dataNascimento);
 
-echo "Detalhes dos Arcanos Destino:\n";
+echo "Detalhes dos Arcanos Destino data e idade:\n";
 foreach ($resultado['arcanoAtual'] as $detalhe) {
     echo "Arcano: " . $detalhe['arcano'] . "\n";
     echo "Início: " . $detalhe['inicio'] . "\n";
