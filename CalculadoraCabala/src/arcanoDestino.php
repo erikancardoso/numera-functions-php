@@ -1,5 +1,5 @@
 <?php
-function arcanoPessoal($nomeCompleto, $dataNascimento)
+function arcanoDestino($nomeCompleto, $dataNascimento)
 {
     // Tabela base de correspondência de letras para números
     $tabelaBase = [
@@ -166,9 +166,9 @@ function arcanoPessoal($nomeCompleto, $dataNascimento)
 // Exemplo de uso
 $nomeCompleto = "Erika Maria nascimento da Silva cardoso";
 $dataNascimento = "30-10-1993";
-$resultado = arcanoPessoal($nomeCompleto, $dataNascimento);
+$resultado = arcanoDestino($nomeCompleto, $dataNascimento);
 
-echo "Detalhes dos Arcanos:\n";
+echo "Detalhes dos Arcanos Destino:\n";
 foreach ($resultado['arcanoAtual'] as $detalhe) {
     echo "Arcano: " . $detalhe['arcano'] . "\n";
     echo "Início: " . $detalhe['inicio'] . "\n";
