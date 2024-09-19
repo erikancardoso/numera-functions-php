@@ -80,7 +80,7 @@ function calcularEndereco($numeroCasa, $nomeRua, $numeroApto = null) {
 echo calcularEndereco(56, "Garuva", null ); // Exemplo sem número de apartamento
 //echo calcularEndereco(123, "Av. São João", 45); // Exemplo com número de apartamento
 ?>
-// virbração de residencia
+/* virbração de residencia
 1. Individualismo;
 2. Sensibilidade e harmonia;
 3. Expressividade e festas;
@@ -90,3 +90,4 @@ echo calcularEndereco(56, "Garuva", null ); // Exemplo sem número de apartament
 7. Concentração e Introspecção;
 8. Materialismo e justiça;
 9. Humanitarismo e Generosidade
+*/
