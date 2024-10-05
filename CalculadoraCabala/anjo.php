@@ -73,6 +73,7 @@ $anjoDataNascimento = [
     ['Nº' => 70, 'Anjo' => 'Rochel', 'Datas' => '15 Mar – 28 Mai – 09 Ago – 21 Out – 02 Jan'],
     ['Nº' => 71, 'Anjo' => 'Jabamiah', 'Datas' => '16 Mar – 29 Mai – 10 Ago – 22 Out – 03 Jan'],
     ['Nº' => 72, 'Anjo' => 'Haiaiel', 'Datas' => '17 Mar – 30 Mai – 11 Ago – 23 Out – 04 Jan'],
+    ['Nº' => 0,  'Genios da Humanidade' => '18 Mar – 31 Mai – 12 Ago – 24 Out – 05 Jan – 19 Mar'], // acrescentar essa condição
 ];
 
 // Função para encontrar o número do anjo
