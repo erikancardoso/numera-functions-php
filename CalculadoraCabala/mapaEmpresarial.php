@@ -1,7 +1,7 @@
 // expressão
 // impressão
 // motivação
-// numeros haminicos
+// numeros harmônicos
 // dia favoraveis
 // missão
 // destino
