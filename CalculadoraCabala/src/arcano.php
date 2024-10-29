@@ -51,7 +51,7 @@ $duracaoArcanoTotal = 90 / $numArcanos;
 $anosPorArcano = floor($duracaoArcanoTotal);
 $mesesDecimais = ($duracaoArcanoTotal - $anosPorArcano) * 12;
 $mesesPorArcano = floor($mesesDecimais);
-$diasPorArcano = (int)(($mesesDecimais - $mesesPorArcano) * 30.44); // Aproximamos para 30.44 dias por mês
+$diasPorArcano = (int)(($mesesDecimais - $mesesPorArcano) * 29.44); // Aproximamos para 30.44 dias por mês
 
 // Definir a data inicial para cálculo de arcanos
 $inicioArcano = new DateTime($dataNascimento);
