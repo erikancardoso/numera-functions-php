@@ -46,47 +46,51 @@ function arcanoVida($nomeCompleto, $dataNascimento)
     }
 
     // Calcular a duração de cada Arcano
-    $numArcanos = count($arcanos);
-    $duracaoArcanoTotal = 90 / $numArcanos;
-    $anosPorArcano = floor($duracaoArcanoTotal);
-    $mesesPorArcano = (int)(($duracaoArcanoTotal - $anosPorArcano) * 12);
+$numArcanos = count($arcanos);
+$duracaoArcanoTotal = 90 / $numArcanos;
+$anosPorArcano = floor($duracaoArcanoTotal);
+$mesesDecimais = ($duracaoArcanoTotal - $anosPorArcano) * 12;
+$mesesPorArcano = floor($mesesDecimais);
+$diasPorArcano = (int)(($mesesDecimais - $mesesPorArcano) * 30.44); // Aproximamos para 30.44 dias por mês
 
-    // Definir a data inicial para cálculo de arcanos
-    $inicioArcano = new DateTime($dataNascimento);
-    $arcanosDetalhados = [];
+// Definir a data inicial para cálculo de arcanos
+$inicioArcano = new DateTime($dataNascimento);
+$arcanosDetalhados = [];
 
-    for ($i = 0; $i < count($arcanos); $i++) {
-        // Calcular a data de fim do arcano
-        $fimArcano = clone $inicioArcano;
-        $fimArcano->add(new DateInterval("P{$anosPorArcano}Y{$mesesPorArcano}M"));
+for ($i = 0; $i < count($arcanos); $i++) {
+    // Calcular a data de fim do arcano
+    $fimArcano = clone $inicioArcano;
+    $fimArcano->add(new DateInterval("P{$anosPorArcano}Y{$mesesPorArcano}M{$diasPorArcano}D"));
 
-        // Calcular a idade da pessoa no início e fim do arcano
-        $idadeInicio = $inicioArcano->diff(new DateTime($dataNascimento));
-        $idadeFim = $fimArcano->diff(new DateTime($dataNascimento));
+    // Calcular a idade da pessoa no início e fim do arcano
+    $idadeInicio = $inicioArcano->diff(new DateTime($dataNascimento));
+    $idadeFim = $fimArcano->diff(new DateTime($dataNascimento));
 
-        // Adicionar o arcano com suas informações detalhadas
-        $arcanosDetalhados[] = [
-            'arcano' => $arcanos[$i],
-            'inicio' => $inicioArcano->format('d-m-Y'),
-            'fim' => $fimArcano->format('d-m-Y'),
-            'idadeInicio' => "{$idadeInicio->y} anos e {$idadeInicio->m} meses",
-            'idadeFim' => "{$idadeFim->y} anos e {$idadeFim->m} meses"
-        ];
-
-        // Atualizar o início para o próximo arcano
-        $inicioArcano = clone $fimArcano;
-    }
-
-    return [
-        'arcanoAtual' => $arcanosDetalhados,
-        'anosPorArcano' => $anosPorArcano,
-        'mesesPorArcano' => $mesesPorArcano,
+    // Adicionar o arcano com suas informações detalhadas
+    $arcanosDetalhados[] = [
+        'arcano' => $arcanos[$i],
+        'inicio' => $inicioArcano->format('d-m-Y'),
+        'fim' => $fimArcano->format('d-m-Y'),
+        'idadeInicio' => "{$idadeInicio->y} anos, {$idadeInicio->m} meses e {$idadeInicio->d} dias",
+        'idadeFim' => "{$idadeFim->y} anos, {$idadeFim->m} meses e {$idadeFim->d} dias"
     ];
+
+    // Atualizar o início para o próximo arcano
+    $inicioArcano = clone $fimArcano;
+}
+
+return [
+    'arcanoAtual' => $arcanosDetalhados,
+    'anosPorArcano' => $anosPorArcano,
+    'mesesPorArcano' => $mesesPorArcano,
+    'diasPorArcano' => $diasPorArcano,
+];
+
 }
 
 // Exemplo de uso
-$nomeCompleto = "wesley alves cardoso";
-$dataNascimento = "1989-12-21";
+$nomeCompleto = "yuri ramon secchi fridres";
+$dataNascimento = "1999-09-19";
 $resultado = arcanoVida($nomeCompleto, $dataNascimento);
 
 echo "Detalhes dos Arcanos Destino, data e idade:\n";
