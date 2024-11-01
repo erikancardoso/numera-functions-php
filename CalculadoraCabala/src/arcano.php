@@ -29,14 +29,13 @@ function arcanoVida($nomeCompleto, $dataNascimento)
     $numeros = [];
     $nomeArray = preg_split('//u', $nomeCompleto, -1, PREG_SPLIT_NO_EMPTY);
 
-    // Iterar sobre cada letra do nome
     foreach ($nomeArray as $letra) {
         if (isset($tabela[$letra])) {
             $numeros[] = $tabela[$letra];
         }
     }
 
-    // Função para calcular os arcanos
+    // Calcular os arcanos
     $arcanos = [];
     for ($i = 0; $i < count($numeros) - 1; $i++) {
         $arcano = $numeros[$i] * 10 + $numeros[$i + 1];
@@ -49,16 +48,18 @@ function arcanoVida($nomeCompleto, $dataNascimento)
     $anosPorArcano = floor($duracaoArcanoTotal);
     $mesesDecimais = ($duracaoArcanoTotal - $anosPorArcano) * 12;
     $mesesPorArcano = floor($mesesDecimais);
-    $diasPorArcano = (int)(($mesesDecimais - $mesesPorArcano) * 28.44);
+    $diasPorArcano = (int)(($mesesDecimais - $mesesPorArcano) * 30);
 
     // Definir a data inicial para cálculo de arcanos
     $inicioArcano = new DateTime($dataNascimento);
     $arcanosDetalhados = [];
 
-    foreach ($arcanos as $arcano) {
-        // Calcular a data de fim do arcano
+     foreach ($arcanos as $index => $arcano) {
+        // Calcular a data de fim do arcano, ajustando os dias a partir do segundo período
         $fimArcano = clone $inicioArcano;
-        $fimArcano->add(new DateInterval("P{$anosPorArcano}Y{$mesesPorArcano}M{$diasPorArcano}D"));
+        $diasAjustados = $index > 0 ? $diasPorArcano - 1 : $diasPorArcano;
+        $fimArcano->add(new DateInterval("P{$anosPorArcano}Y{$mesesPorArcano}M{$diasAjustados}D"));
+
 
         // Calcular a idade da pessoa no início e fim do arcano
         $idadeInicio = $inicioArcano->diff(new DateTime($dataNascimento));
@@ -70,10 +71,10 @@ function arcanoVida($nomeCompleto, $dataNascimento)
             'inicio' => $inicioArcano->format('d-m-Y'),
             'fim' => $fimArcano->format('d-m-Y'),
             'idadeInicio' => "{$idadeInicio->y} anos, {$idadeInicio->m} meses e {$idadeInicio->d} dias",
-            'idadeFim' => "{$idadeFim->y} anos, {$idadeFim->m} meses e {$idadeFim->d} dias"
+            'idadeFim' => "{$idadeFim->y} anos, {$idadeFim->m} meses e {$idadeFim->d} dias",
         ];
 
-        // Atualizar o início para o próximo arcano (um dia após o fim do arcano atual)
+        // Atualizar o início para o próximo arcano (exatamente um dia após o fim do arcano atual)
         $inicioArcano = clone $fimArcano;
         $inicioArcano->add(new DateInterval("P1D"));
     }
@@ -97,5 +98,6 @@ foreach ($resultado['arcanoAtual'] as $detalhe) {
     echo "Início: " . $detalhe['inicio'] . "\n";
     echo "Fim: " . $detalhe['fim'] . "\n";
     echo "Idade Início: " . $detalhe['idadeInicio'] . "\n";
-    echo "Idade Fim: " . $detalhe['idadeFim'] . "\n\n";
+    echo "Idade Fim: " . $detalhe['idadeFim'] . "\n";
+   
 }
