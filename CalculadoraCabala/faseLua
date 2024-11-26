@@ -1,0 +1,66 @@
+<?php
+function fase_da_lua($data_str) {
+    // Converter a string de data para um objeto DateTime
+    $data = DateTime::createFromFormat('d/m/Y', $data_str);
+    if (!$data) {
+        return "Data inválida!";
+    }
+
+    // Data base para o cálculo (2000-01-06 18:14 UTC - uma Lua Nova conhecida)
+    $data_base = new DateTime('2000-01-06 18:14:00', new DateTimeZone('UTC'));
+
+    // Calcular a diferença em dias entre a data fornecida e a data base
+    $diferenca_dias = $data_base->diff($data)->days;
+    if ($data < $data_base) {
+        $diferenca_dias = -$diferenca_dias;
+    }
+
+    // Duração média do ciclo lunar em dias
+    $ciclo_lunar = 29.53058867;
+
+    // Calcular a idade da Lua
+    $idade_lua = fmod($diferenca_dias, $ciclo_lunar);
+    if ($idade_lua < 0) {
+        $idade_lua += $ciclo_lunar;
+    }
+
+    // Determinar a fase da Lua com base na idade
+    if ($idade_lua < 1.84566) {
+        $fase = "Lua Nova";
+    } elseif ($idade_lua < 5.53699) {
+        $fase = "Crescente Côncava";
+    } elseif ($idade_lua < 9.22831) {
+        $fase = "Quarto Crescente";
+    } elseif ($idade_lua < 12.91963) {
+        $fase = "Crescente Gibosa";
+    } elseif ($idade_lua < 16.61096) {
+        $fase = "Lua Cheia";
+    } elseif ($idade_lua < 20.30228) {
+        $fase = "Minguante Gibosa";
+    } elseif ($idade_lua < 23.99361) {
+        $fase = "Quarto Minguante";
+    } elseif ($idade_lua < 27.68493) {
+        $fase = "Minguante Côncava";
+    } else {
+        $fase = "Lua Nova";
+    }
+
+    // Obter o nome do dia da semana em português
+    $dias_semana = [
+        'Sunday' => 'Domingo',
+        'Monday' => 'Segunda-feira',
+        'Tuesday' => 'Terça-feira',
+        'Wednesday' => 'Quarta-feira',
+        'Thursday' => 'Quinta-feira',
+        'Friday' => 'Sexta-feira',
+        'Saturday' => 'Sábado'
+    ];
+    $dia_semana_en = $data->format('l');
+    $dia_semana_pt = $dias_semana[$dia_semana_en];
+
+    return "No dia " . $data->format('d/m/Y') . ", era um " . $dia_semana_pt . " e a Lua estava na fase " . $fase . ".";
+}
+
+// Exemplo de uso
+echo fase_da_lua("29/08/2020");
+?>
