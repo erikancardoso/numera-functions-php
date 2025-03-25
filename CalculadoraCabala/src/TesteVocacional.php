@@ -77,61 +77,34 @@ $listaProfissoes = [
     ],
 ];
 
-print_r($profissoes); // Exemplo de saída para ver o array
-
-?>
-
-
-    // Números para procurar na lista de profissões e suas fontes
-    $numeros = [
-        'Destino' => $numeroDestino,
-        'Missão' => $numeroMissao,
-        'Expressão' => $numeroExpressao,
-        'Dia de Nascimento' => $diaNascimento
-    ];
-
-    // Armazena todas as profissões encontradas com suas fontes
+    // Lista para armazenar todas as profissões encontradas
     $todasProfissoes = [];
 
-    // Mapeia profissões com suas fontes
-    foreach ($numeros as $fonte => $numero) {
-        if (isset($listaProfissoes[$numero])) {
-            echo "Profissões para o número $numero ($fonte):\n";
-            foreach ($listaProfissoes[$numero] as $profissao) {
-                echo "- $profissao\n";
-                $todasProfissoes[] = ['profissao' => $profissao, 'fonte' => $fonte];
-            }
-        } else {
-            echo "Não há profissões mapeadas para o número $numero ($fonte).\n";
-        }
-        echo "\n";
-    }
+    // Mapeia os parâmetros para as chaves do array
+    $valores = [
+        'destino' => $numeroDestino,
+        'missao' => $numeroMissao,
+        'expressao' => $numeroExpressao,
+        'dataNascimento' => $diaNascimento
+    ];
 
-    // Conta a ocorrência de cada profissão com suas fontes
-    $ocorrencias = [];
-
-    // Agrupa as profissões por nome e mantém um registro das fontes
-    foreach ($todasProfissoes as $entrada) {
-        $profissao = $entrada['profissao'];
-        $fonte = $entrada['fonte'];
-        if (!isset($ocorrencias[$profissao])) {
-            $ocorrencias[$profissao] = ['contagem' => 0, 'fontes' => []];
-        }
-        $ocorrencias[$profissao]['contagem']++;
-        $ocorrencias[$profissao]['fontes'][] = $fonte;
-    }
-
-    // Exibe as profissões que aparecem mais de uma vez e suas origens
-    echo "Profissões em comum e suas frequências:\n";
-    foreach ($ocorrencias as $profissao => $dados) {
-        if ($dados['contagem'] > 1) {
-            $fontesUnicas = array_unique($dados['fontes']);
-            echo "- $profissao: {$dados['contagem']} vezes, em: " . implode(', ', $fontesUnicas) . "\n";
+    // Verifica se os números existem no array e adiciona suas profissões à lista
+    foreach ($valores as $categoria => $numero) {
+        if (isset($listaProfissoes[$categoria][$numero])) {
+            $todasProfissoes = array_merge($todasProfissoes, $listaProfissoes[$categoria][$numero]);
         }
     }
+
+    // Conta as repetições de cada profissão
+    $contagemProfissoes = array_count_values($todasProfissoes);
+
+    // Ordena as profissões pela quantidade de vezes que aparecem (do maior para o menor)
+    arsort($contagemProfissoes);
+
+    // Retorna o array com as contagens das profissões
+    return $contagemProfissoes;
 }
 
-// Exemplo de uso
-testeVocacional(11, 22, 11, 19);
-
-?>
+// Teste da função
+$resultado = testeVocacional(11, 22, 11, 19);
+print_r($resultado);
